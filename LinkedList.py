@@ -8,7 +8,7 @@ class Node(object):
 class LinkedList(object):
 
     def __init__(self):
-        self.head = Node()
+        self.head = None
 
     def buildList(self, data):
 
@@ -38,12 +38,28 @@ class LinkedList(object):
         self.head = 0
         print("List is empty now!")
 
+    def append(self, value):
+        node = Node(value)
+        if self.head is None:
+            self.head = node
+            return
+        else:
+            temp = self.head
+            while temp.next:
+                temp = temp.next
+            temp.next = node
+            return
+
     # Insert a node in a specific position
     def insert(self, index, value):
-        temp = Node(value)
+        if index < 0 or index > self.getSize():
+            print("Invalid index")
+            return
+
+        node = Node(value)
         if index == 0:
-            temp.next = self.head
-            self.head = temp
+            node.next = self.head
+            self.head = node
             return
         else:
             pos = 0
@@ -54,9 +70,8 @@ class LinkedList(object):
                 p = p.next
                 pos += 1
 
-            temp.next = p.next
-            p.next = temp
-
+            node.next = p.next
+            p.next = node
             return
 
     # Remove a node by key
@@ -99,6 +114,10 @@ class LinkedList(object):
 
     # Traverse and print out the list
     def printList(self):
+        if self.is_empty():
+            print("Empty list!")
+            return
+
         temp = self.head
         print("The list is: ", end="")
         while temp:
@@ -113,19 +132,34 @@ if __name__ == '__main__':
     input_data = [1, 3, 5, 7, 9]
     print(input_data)
 
+    # Test build linkedlist
     link_list = LinkedList()
     link_list.buildList(input_data)
     link_list.printList()
 
+    # Test get node
     print("3 is the %d element\n" % link_list.getNode(3))
 
+    # Test remove node
     link_list.remove(3)
     link_list.printList()
 
+    # Test insert node
     print("Insert 3 at the previous position\n")
     link_list.insert(1, 3)
     link_list.printList()
-
     print("Insert 4 between 3 and 5")
     link_list.insert(2, 4)
     link_list.printList()
+
+    link_list.insert(6, 11)
+    link_list.printList()
+
+    link_list.clearList()
+    link_list.printList()
+
+    l_list = LinkedList()
+    l_list.append(1)
+    l_list.append(2)
+    l_list.append(3)
+    l_list.printList()
