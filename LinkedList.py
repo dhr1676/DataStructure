@@ -158,6 +158,7 @@ if __name__ == '__main__':
     link_list.clearList()
     link_list.printList()
 
+    print("Build a new list: 1 -> 2 -> 3\n")
     l_list = LinkedList()
     l_list.append(1)
     l_list.append(2)
