@@ -38,14 +38,28 @@ class LinkedList(object):
         self.head = 0
         print("List is empty now!")
 
+    # Insert a node in a specific position
     def insert(self, index, value):
+        temp = Node(value)
         if index == 0:
-            q = Node(value, self.head)
-            self.head = q
+            temp.next = self.head
+            self.head = temp
+            return
+        else:
+            pos = 0
+            dummy = Node(-1)
+            dummy.next = self.head
+            p = dummy
+            while p.next and pos < index:
+                p = p.next
+                pos += 1
 
-        p = self.head
-        return None
+            temp.next = p.next
+            p.next = temp
 
+            return
+
+    # Remove a node by key
     def remove(self, key):
         if self.is_empty():
             raise ValueError("Empty list!")
@@ -65,6 +79,7 @@ class LinkedList(object):
         print("Node not found")
         return None
 
+    # Get a node by the key
     def getNode(self, key):
 
         if self.is_empty():
@@ -82,7 +97,7 @@ class LinkedList(object):
         print("Node not found")
         return None
 
-    # Traverse the list
+    # Traverse and print out the list
     def printList(self):
         temp = self.head
         print("The list is: ", end="")
@@ -97,6 +112,7 @@ class LinkedList(object):
 if __name__ == '__main__':
     input_data = [1, 3, 5, 7, 9]
     print(input_data)
+
     link_list = LinkedList()
     link_list.buildList(input_data)
     link_list.printList()
@@ -104,4 +120,12 @@ if __name__ == '__main__':
     print("3 is the %d element\n" % link_list.getNode(3))
 
     link_list.remove(3)
+    link_list.printList()
+
+    print("Insert 3 at the previous position\n")
+    link_list.insert(1, 3)
+    link_list.printList()
+
+    print("Insert 4 between 3 and 5")
+    link_list.insert(2, 4)
     link_list.printList()
