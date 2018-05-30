@@ -1,4 +1,5 @@
 class Node(object):
+    # 不用__init__也可以哎？？？
     left = None
     right = None
     parent = None

@@ -1,5 +1,6 @@
 class Node(object):
 
+    # __init__的意义应该是自带实例化吧？？？具体还不懂，再研究一下？？？
     def __init__(self, key=None, data=None):
         self.left = None
         self.right = None
@@ -54,6 +55,7 @@ class Tree(object):
             print("No right child")
         print("")
         self.__PrintAux(node.right)
+        return None
 
     # 为Delete服务，但是只处理了u,v跟parent节点的关系，child的关系都没管
     def __Transplant(self, u, v):
@@ -65,15 +67,17 @@ class Tree(object):
             u.parent.right = v
         if v.key:
             v.parent = u.parent
+        return None
 
     def PrintTree(self):
         print("----------Print out the BST----------\n")
         self.__PrintAux(self._root)
+        return None
 
     def Insert(self, key, data):
-        node = Node()
-        node.key = key
-        node.data = data
+        node = Node(key=key, data=data)
+        # node.key = key
+        # node.data = data
         node.left = Node()
         node.right = Node()
         node.parent = Node()
@@ -95,6 +99,7 @@ class Tree(object):
             y.left = node
         else:
             y.right = node
+        return None
 
     def MinNode(self):
         node = self.__MinNodeAux(self._root)
@@ -117,7 +122,6 @@ class Tree(object):
             self.__Transplant(node, node.left)
         else:
             succ = self.__MinNodeAux(node.right)
-
             if succ == node.right:
                 # Transplant只解决parent，child得再做一次操作
                 # 需要专门给被换的child做操作
