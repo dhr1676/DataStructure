@@ -1,4 +1,5 @@
 import sys
+import copy
 
 
 class Edge(object):
@@ -19,7 +20,6 @@ class Vertex(object):
 
 
 class Graph(object):
-    # Color = {"White": 0, "Gray": 1, "Black": 2}
 
     def __init__(self, size):
         self.size = size
@@ -59,7 +59,47 @@ class Graph(object):
             for k, v in self.Vertexes[i].edges.items():
                 print("%d -> %d " % (i, k), end="")
             print("}")
-        print("---------------------------------------")
+        print("---------------------------------------\n")
+
+    def getBFT(self, s):
+        temp = Graph(self.size)
+
+        for i in range(self.size):
+            temp.Vertexes.append(Vertex())
+            temp.Vertexes[i] = copy.deepcopy(self.Vertexes[i])
+
+        for i in range(self.size):
+            temp.Vertexes[i].color = "White"
+            temp.Vertexes[i].distance = sys.maxsize
+            temp.Vertexes[i].parent = -1
+
+        temp.Vertexes[s].color = "Gray"
+        temp.Vertexes[s].distance = 0
+
+        queue = list()
+        queue.append(s)
+
+        while len(queue):
+            u = queue.pop(0)
+            # print("u is %d " % u)
+            for v, weight in temp.Vertexes[u].edges.items():
+                if temp.Vertexes[v].color == "White":
+                    temp.Vertexes[v].color = "Gray"
+                    temp.Vertexes[v].parent = u
+                    temp.Vertexes[v].distance = temp.Vertexes[u].distance + 1
+                    queue.append(v)
+                    # print("v is %d " % v)
+            temp.Vertexes[u].color = "Black"
+
+        for i in range(self.size):
+            temp.Vertexes[i].edges.clear()
+
+        for i in range(self.size):
+            if temp.Vertexes[i].parent >= 0:
+                u = temp.Vertexes[i].parent
+                temp.AddEdge(u, i, 1)
+
+        return temp
 
     def __DFSVisit(self, u, time):
         return
@@ -69,9 +109,30 @@ class Graph(object):
 
 
 if __name__ == '__main__':
-    graph = Graph(4)
+    # graph = Graph(8)
+    # graph.AddUndirectedEdge(0, 1)
+    # graph.AddUndirectedEdge(0, 4)
+    # graph.AddUndirectedEdge(1, 5)
+    # graph.AddUndirectedEdge(2, 3)
+    # graph.AddUndirectedEdge(2, 5)
+    # graph.AddUndirectedEdge(2, 6)
+    # graph.AddUndirectedEdge(3, 6)
+    # graph.AddUndirectedEdge(3, 7)
+    # graph.AddUndirectedEdge(5, 6)
+    # graph.AddUndirectedEdge(6, 7)
+    # graph.PrintGraph()
+    #
+    # graph.getBFT(1).PrintGraph()
+    #
+    # graph.PrintGraph()
+    graph = Graph(7)
     graph.AddUndirectedEdge(0, 1)
-    graph.AddUndirectedEdge(0, 3)
-    graph.AddUndirectedEdge(1, 2)
-    graph.AddUndirectedEdge(2, 3)
+    graph.AddUndirectedEdge(0, 2)
+    graph.AddUndirectedEdge(1, 3)
+    graph.AddUndirectedEdge(1, 4)
+    graph.AddUndirectedEdge(2, 5)
+    graph.AddUndirectedEdge(2, 6)
+    graph.PrintGraph()
+
+    graph.getBFT(0).PrintGraph()
     graph.PrintGraph()
