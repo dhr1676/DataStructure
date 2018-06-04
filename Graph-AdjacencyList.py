@@ -60,6 +60,7 @@ class Graph(object):
                 print("%d -> %d " % (i, k), end="")
             print("}")
         print("---------------------------------------\n")
+        return None
 
     def getBFT(self, s):
         temp = Graph(self.size)
@@ -101,11 +102,74 @@ class Graph(object):
 
         return temp
 
-    def __DFSVisit(self, u, time):
-        return
+    def __DFSRec(self, s, time):
+        self.Vertexes[s].color = "Gray"
+        self.Vertexes[s].time_in = time
+        time += 1
 
-    def __Relax(self, u, edge):
-        return
+        for v in self.Vertexes[s].edges.keys():
+            if self.Vertexes[v].color == "White":
+                self.Vertexes[v].parent = s
+                time = self.__DFSRec(v, time)
+
+        self.Vertexes[s].color = "Black"
+        self.Vertexes[s].time_out = time
+        time += 1
+
+        return time
+
+    def DFS(self, s):
+        for i in range(self.size):
+            self.Vertexes[i].color = "White"
+            self.Vertexes[i].parent = -1
+            self.Vertexes[i].time_in = -1
+            self.Vertexes[i].time_out = -1
+
+        self.__DFSRec(s, 0)
+        return None
+
+    def PrintShortestPath(self, u, v):
+        if u == v:
+            print(u, end="")
+        elif self.Vertexes[v].parent == -1:
+            print("unreachable")
+        else:
+            self.PrintShortestPath(u, self.Vertexes[v].parent)
+            print(" -> %d" % v, end="")
+        return None
+
+    def __relax(self, u, v, v_weight):
+        if self.Vertexes[u].distance + v_weight < self.Vertexes[v].distance:
+            self.Vertexes[v].distance = self.Vertexes[u].distance + v_weight
+            self.Vertexes[v].parent = u
+        return None
+
+    def Bellman_Ford(self, s):
+        # Initialize all vertexes' distance and parent fields
+        for i in range(self.size):
+            self.Vertexes[i].distance = sys.maxsize
+            self.Vertexes[i].parent = -1
+        self.Vertexes[s].distance = 0
+
+        # Bellman-Ford algorithm can find the shortest path in n-1 times
+        for iteration in range(self.size - 1):
+            # print("it is %d time" % iteration)
+            for j in range(self.size):
+                for v, v_weight in self.Vertexes[j].edges.items():
+                    self.__relax(j, v, v_weight)
+        # Detect negative circles
+        for i in range(self.size):
+            for v, v_weight in self.Vertexes[i].edges.items():
+                if self.Vertexes[v].distance > self.Vertexes[i].distance + v_weight\
+                        and self.Vertexes[i].distance != sys.maxsize:
+                    # raise Exception("Negative edge")
+                    print("Negative edge")
+
+        return None
+
+    def Dijkstra(self, s):
+
+        return None
 
 
 if __name__ == '__main__':
@@ -125,6 +189,8 @@ if __name__ == '__main__':
     # graph.getBFT(1).PrintGraph()
     #
     # graph.PrintGraph()
+
+    # BFS and DFS test
     graph = Graph(7)
     graph.AddUndirectedEdge(0, 1)
     graph.AddUndirectedEdge(0, 2)
@@ -134,5 +200,27 @@ if __name__ == '__main__':
     graph.AddUndirectedEdge(2, 6)
     graph.PrintGraph()
 
+    # Print Breadth-first Search Tree
     graph.getBFT(0).PrintGraph()
     graph.PrintGraph()
+
+    graph.DFS(0)
+    graph.PrintGraph()
+
+    # Bellman-Ford test
+    g = Graph(10)
+    g.AddUndirectedEdge(0, 1)
+    g.AddUndirectedEdge(0, 2)
+    g.AddUndirectedEdge(1, 4)
+    g.AddUndirectedEdge(2, 3)
+    g.AddUndirectedEdge(3, 4)
+    g.AddUndirectedEdge(3, 6)
+    g.AddUndirectedEdge(5, 6)
+    g.AddUndirectedEdge(5, 8)
+    g.AddUndirectedEdge(6, 7)
+    g.AddUndirectedEdge(7, 9)
+    g.AddUndirectedEdge(8, 9)
+    g.Bellman_Ford(0)
+    for t in range(10):
+        print("\nShortest path from 0 to %d:\n" % t, end="")
+        g.PrintShortestPath(0, t)

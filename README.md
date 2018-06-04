@@ -15,8 +15,15 @@ Just some practice about data structure
 
 插入节点，删除节点，找最小节点
 
-## Graph
-Breadth-First Search的实现
+## Graph-AdjacencyList.py
+### Graph的邻接表形式的实现
+
+### Breadth-First Search的实现，输出一个Breadth-first Search Tree
+
+### Implement the Depth-first Search algorithm
+
+### Implement Bellman-Ford algorithm and output the shortest path
+
 
 有一个关于self.Vertexes = [Vertex()] * size 赋值后，所有的list单元指向同一个地址的问题
 
