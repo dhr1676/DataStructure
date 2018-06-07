@@ -3,12 +3,11 @@
 Just some practice about data structure
 
 ## ClassTest.py
-简单的类的声明和实例化
+*1 简单的类的声明和实例化
 
 ## LinkedList.py
-单向链表的实现，可以直接一个一个插入建，也可以直接用一个数组建
-
-单向链表中节点的插入、删除、直接往后加
+*1 单向链表的实现，可以直接一个一个插入建，也可以直接用一个数组建
+*2单向链表中节点的插入、删除、直接往后加
 
 ## BinarySearchTree.py
 二叉搜索树的实现
