@@ -4,9 +4,10 @@ Just some practice about data structure
 
 ## ClassTest.py
 * 简单的类的声明和实例化
-- - -
+
 ## LinkedList.py
 * 单向链表的实现，可以直接一个一个插入建，也可以直接用一个数组建
+
 * 单向链表中节点的插入、删除、直接往后加
 
 ## BinarySearchTree.py
@@ -15,9 +16,13 @@ Just some practice about data structure
 
 ## Graph-AdjacencyList.py
 * Implement Graph as the adjacency list format
+
 * Breadth-First Search的实现，输出一个Breadth-first Search Tree
+
 * Implement the Depth-first Search algorithm
+
 * Implement Bellman-Ford algorithm and output the shortest path
+
 * Implement Dijkstra algorithm and output the shortest path
 
 Bellman-Ford computes the shortest paths from a single source vertex to all of the other vertices in a weighted digraph.
