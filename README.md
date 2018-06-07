@@ -24,6 +24,12 @@ Implement the Depth-first Search algorithm
 
 Implement Bellman-Ford algorithm and output the shortest path
 
+Bellman-Ford computes the shortest paths from a single source vertex to all of the other vertices in a weighted digraph.
+
+比Dijkstra慢，但是能处理有负边的图；原理就是对每条边反复relax，若n-1次后还能更新，说明图中有负环
+
+Dijkstra好难写，复杂度还不对，现在是O(n^3)
+
 有一个关于self.Vertexes = [Vertex()] * size 赋值后，所有的list单元指向同一个地址的问题
 
 好像是浅拷贝和深拷贝的问题

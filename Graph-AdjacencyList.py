@@ -157,10 +157,11 @@ class Graph(object):
             for j in range(self.size):
                 for v, v_weight in self.Vertexes[j].edges.items():
                     self.__relax(j, v, v_weight)
+
         # Detect negative circles
         for i in range(self.size):
             for v, v_weight in self.Vertexes[i].edges.items():
-                if self.Vertexes[v].distance > self.Vertexes[i].distance + v_weight\
+                if self.Vertexes[v].distance > self.Vertexes[i].distance + v_weight \
                         and self.Vertexes[i].distance != sys.maxsize:
                     # raise Exception("Negative edge")
                     print("Negative edge")
@@ -168,7 +169,42 @@ class Graph(object):
         return None
 
     def Dijkstra(self, s):
+        self.Vertexes[s].distance = 0
 
+        distance = [(sys.maxsize, False)] * self.size
+        for i in range(self.size):
+            if self.Vertexes[i].edges.__contains__(s):
+                # self.Vertexes[i].distance = self.Vertexes[i].edges[s]
+                distance[i] = (self.Vertexes[i].edges[s], False)
+                self.Vertexes[i].parent = s
+            # else:
+            #     self.Vertexes[i].distance = sys.maxsize
+        distance[0] = (0, True)
+
+        # for i in range(self.size):
+        #     print(distance[i][1])
+
+        count = 1
+        while count < self.size:
+            min_index = 0
+            temp_min = sys.maxsize
+            for i in range(self.size):
+                if distance[i][1] is False and distance[i][0] < temp_min:
+                    min_index = i
+                    temp_min = distance[i][0]
+
+            count += 1
+            distance[min_index] = (distance[min_index][0], True)
+
+            for i in range(self.size):
+                if distance[i][1] is False:
+                    for j in self.Vertexes[i].edges.keys():
+                        if self.Vertexes[i].edges[j] + distance[j][0] < distance[i][0]:
+                            distance[i] = (self.Vertexes[i].edges[j] + distance[j][0], distance[i][1])
+                            self.Vertexes[i].parent = j
+
+        for i in range(self.size):
+            self.Vertexes[i].distance = distance[i][0]
         return None
 
 
@@ -201,9 +237,12 @@ if __name__ == '__main__':
     graph.PrintGraph()
 
     # Print Breadth-first Search Tree
+    print("--------BFT result:----------")
     graph.getBFT(0).PrintGraph()
+    print("--------The original graph:--------")
     graph.PrintGraph()
 
+    print("--------DFS result:--------")
     graph.DFS(0)
     graph.PrintGraph()
 
@@ -221,6 +260,26 @@ if __name__ == '__main__':
     g.AddUndirectedEdge(7, 9)
     g.AddUndirectedEdge(8, 9)
     g.Bellman_Ford(0)
+    print("--------Bellman-Ford result:--------")
     for t in range(10):
         print("\nShortest path from 0 to %d:\n" % t, end="")
         g.PrintShortestPath(0, t)
+
+    # Dijkstra test
+    gd = Graph(6)
+    gd.AddUndirectedEdge(0, 1, 14)
+    gd.AddUndirectedEdge(0, 5, 9)
+    gd.AddUndirectedEdge(0, 4, 7)
+    gd.AddUndirectedEdge(1, 2, 9)
+    gd.AddUndirectedEdge(1, 5, 2)
+    gd.AddUndirectedEdge(2, 3, 6)
+    gd.AddUndirectedEdge(3, 5, 11)
+    gd.AddUndirectedEdge(3, 4, 15)
+    gd.AddUndirectedEdge(4, 5, 10)
+
+    gd.Dijkstra(0)
+    print("\n\n--------Dijkstra result:--------")
+    gd.PrintGraph()
+    for t in range(6):
+        print("\nShortest path from 0 to %d:\n" % t, end="")
+        gd.PrintShortestPath(0, t)
