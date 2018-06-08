@@ -31,6 +31,8 @@ Bellman-Ford computes the shortest paths from a single source vertex to all of t
 
 Dijkstra好难写，复杂度还不对，现在是O(n^3)
 
+Dijkstra的原理
+
 有一个关于self.Vertexes = [Vertex()] * size 赋值后，所有的list单元指向同一个地址的问题
 
 好像是浅拷贝和深拷贝的问题
